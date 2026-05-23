@@ -3,7 +3,7 @@ FROM scratch AS ctx
 COPY build_files /
 
 # Base Image
-FROM quay.io/fedora/fedora-bootc:42
+FROM ghcr.io/ublue-os/main:42
 
 ## Other possible base images include:
 # FROM ghcr.io/ublue-os/bazzite:latest
@@ -29,11 +29,21 @@ FROM quay.io/fedora/fedora-bootc:42
 ## make modifications desired in your image and install packages by modifying the build.sh script
 ## the following RUN directive does all the things required to run "build.sh" as recommended.
 
+ARG IMAGE_VARIANT=all
+ARG USER_NAME=touko
+ARG USER_PASSWORD_HASH=""
+ARG USER_SSH_KEY=""
+
+ENV IMAGE_VARIANT=${IMAGE_VARIANT}
+ENV USER_NAME=${USER_NAME}
+ENV USER_PASSWORD_HASH=${USER_PASSWORD_HASH}
+ENV USER_SSH_KEY=${USER_SSH_KEY}
+
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
-    /ctx/build.sh
+    IMAGE_VARIANT=${IMAGE_VARIANT} USER_NAME=${USER_NAME} USER_PASSWORD_HASH=${USER_PASSWORD_HASH} USER_SSH_KEY=${USER_SSH_KEY} /ctx/build.sh
     
 ### LINTING
 ## Verify final image and contents are correct.
