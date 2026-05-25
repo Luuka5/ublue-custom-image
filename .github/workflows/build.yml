@@ -104,7 +104,6 @@ jobs:
           tags: ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}
           build-args: |
-            IMAGE_VARIANT=${{ vars.IMAGE_VARIANT || 'all' }}
             USER_NAME=${{ vars.USER_NAME || 'touko' }}
             USER_PASSWORD_HASH=${{ secrets.USER_PASSWORD_HASH }}
             USER_SSH_KEY=${{ secrets.USER_SSH_KEY }}

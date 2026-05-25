@@ -7,12 +7,10 @@ dnf5 install -y \
     vim \
     git \
     gh \
-    jujutsu \
     htop \
     fastfetch \
     gcc \
     unzip \
-    gnutar \
     usbutils \
     pciutils \
     killall \

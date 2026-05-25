@@ -86,7 +86,7 @@ sudoif command *args:
 #
 
 # Build the image using the specified parameters
-build variant="all" user="touko" $target_image=image_name $tag=default_tag:
+build user="touko" $target_image=image_name $tag=default_tag:
     #!/usr/bin/env bash
 
     BUILD_ARGS=()
@@ -94,7 +94,6 @@ build variant="all" user="touko" $target_image=image_name $tag=default_tag:
         BUILD_ARGS+=("--build-arg" "SHA_HEAD_SHORT=$(git rev-parse --short HEAD)")
     fi
 
-    BUILD_ARGS+=("--build-arg" "IMAGE_VARIANT={{ variant }}")
     BUILD_ARGS+=("--build-arg" "USER_NAME={{ user }}")
     if [[ -n "${USER_PASSWORD_HASH:-}" ]]; then
         BUILD_ARGS+=("--build-arg" "USER_PASSWORD_HASH=${USER_PASSWORD_HASH}")

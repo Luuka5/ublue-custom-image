@@ -2,11 +2,14 @@
 set -ouex pipefail
 
 USER_ID=1001
-HOME_DIR="/home/${USER_NAME}"
+HOME_DIR="/var/home/${USER_NAME}"
 
 useradd -u ${USER_ID} -m -d ${HOME_DIR} -s /usr/bin/fish ${USER_NAME}
 
-usermod -aG wheel,podman,input,video ${USER_NAME}
+usermod -aG wheel,input,video ${USER_NAME}
+if getent group podman > /dev/null 2>&1; then
+    usermod -aG podman ${USER_NAME}
+fi
 
 if [[ -n "${USER_PASSWORD_HASH:-}" ]]; then
     echo "${USER_NAME}:${USER_PASSWORD_HASH}" | chpasswd -e
@@ -29,7 +32,7 @@ EOF
 chmod 440 /etc/sudoers.d/${USER_NAME}-sudo
 
 ROOT_HOME="/root"
-mkdir -p ${ROOT_HOME}/.ssh
+mkdir -p /var/roothome/.ssh
 chmod 700 ${ROOT_HOME}/.ssh
 
 if [[ -n "${USER_SSH_KEY:-}" ]]; then
